@@ -75,11 +75,11 @@ export default async function ProductDetailPage({ params }: Props) {
 
             {/* Price */}
             <div className="bg-[#FDF3DC] rounded-xl p-4 mb-6">
-              <p className="text-xs text-gray-500 mb-1">ราคาขายปลีก</p>
+              <p className="text-xs text-gray-500 mb-1">ราคาขายหน้าร้าน</p>
               <p className="text-3xl font-bold text-[#1A1A1A]">
-                ฿{product.price1.toLocaleString()}
+                ฿{product.price2.toLocaleString()}
               </p>
-              {product.price5 > 0 && product.price5 !== product.price1 && (
+              {product.price5 > 0 && product.price5 !== product.price2 && (
                 <p className="text-sm text-gray-500 mt-1">
                   ราคาส่ง: <span className="font-semibold text-[#C9971A]">฿{product.price5.toLocaleString()}</span>
                 </p>

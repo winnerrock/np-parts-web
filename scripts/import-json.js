@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS products (
   brand       VARCHAR(100),
   vendor      VARCHAR(100),
   price1      NUMERIC(10,2) DEFAULT 0,
+  price2      NUMERIC(10,2) DEFAULT 0,
   price5      NUMERIC(10,2) DEFAULT 0,
   costlast    NUMERIC(10,2) DEFAULT 0,
   qtyoh2      NUMERIC(10,2) DEFAULT 0,
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS products (
   synced_at   TIMESTAMP     DEFAULT NOW(),
   updated_at  TIMESTAMP     DEFAULT NOW()
 );
+ALTER TABLE products ADD COLUMN IF NOT EXISTS price2 NUMERIC(10,2) DEFAULT 0;
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_brand     ON products(brand);
 `
@@ -47,8 +49,7 @@ async function main() {
 
   const client = await pool.connect()
   try {
-    // สร้าง table ก่อน (ถ้ายังไม่มี)
-    console.log('สร้าง schema...')
+    console.log('สร้าง/อัปเดต schema...')
     await client.query(SCHEMA)
 
     console.log(`กำลัง import ${products.length} รายการ...`)
@@ -56,15 +57,15 @@ async function main() {
     let count = 0
     for (const p of products) {
       await client.query(
-        `INSERT INTO products (bcode,pcode,descr,model,brand,vendor,price1,price5,costlast,qtyoh2,location1,category,synced_at,updated_at)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,NOW(),NOW())
+        `INSERT INTO products (bcode,pcode,descr,model,brand,vendor,price1,price2,price5,costlast,qtyoh2,location1,category,synced_at,updated_at)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,NOW(),NOW())
          ON CONFLICT (bcode) DO UPDATE SET
            pcode=EXCLUDED.pcode, descr=EXCLUDED.descr, model=EXCLUDED.model,
            brand=EXCLUDED.brand, vendor=EXCLUDED.vendor, price1=EXCLUDED.price1,
-           price5=EXCLUDED.price5, costlast=EXCLUDED.costlast, qtyoh2=EXCLUDED.qtyoh2,
-           location1=EXCLUDED.location1, updated_at=NOW()`,
+           price2=EXCLUDED.price2, price5=EXCLUDED.price5, costlast=EXCLUDED.costlast,
+           qtyoh2=EXCLUDED.qtyoh2, location1=EXCLUDED.location1, updated_at=NOW()`,
         [p.bcode, p.pcode, p.descr, p.model, p.brand, p.vendor,
-         p.price1, p.price5, p.costlast, p.qtyoh2, p.location1, p.category]
+         p.price1, p.price2 ?? 0, p.price5, p.costlast, p.qtyoh2, p.location1, p.category]
       )
       count++
       if (count % 100 === 0) process.stdout.write(`\r${count}/${products.length}`)

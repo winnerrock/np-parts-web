@@ -22,6 +22,7 @@ $cmd.CommandText = @"
 SELECT
     BCODE, PCODE, DESCR, MODEL, BRAND, VENDOR,
     ISNULL(PRICE1,0)   AS PRICE1,
+    ISNULL(PRICE2,0)   AS PRICE2,
     ISNULL(PRICE5,0)   AS PRICE5,
     ISNULL(COSTLAST,0) AS COSTLAST,
     ISNULL(QTYOH2,0)   AS QTYOH2,
@@ -67,19 +68,20 @@ if ($psql) {
         $brand   = $row['BRAND'].ToString().Replace("'","''")
         $vendor  = $row['VENDOR'].ToString().Replace("'","''")
         $price1  = $row['PRICE1']
+        $price2  = $row['PRICE2']
         $price5  = $row['PRICE5']
         $cost    = $row['COSTLAST']
         $qty     = $row['QTYOH2']
         $loc     = $row['LOCATION1'].ToString().Replace("'","''")
 
         $upsertSql += @"
-INSERT INTO products (bcode,pcode,descr,model,brand,vendor,price1,price5,costlast,qtyoh2,location1,category,synced_at,updated_at)
-VALUES ('$bcode','$pcode','$descr','$model','$brand','$vendor',$price1,$price5,$cost,$qty,'$loc','น้ำมันเครื่อง',NOW(),NOW())
+INSERT INTO products (bcode,pcode,descr,model,brand,vendor,price1,price2,price5,costlast,qtyoh2,location1,category,synced_at,updated_at)
+VALUES ('$bcode','$pcode','$descr','$model','$brand','$vendor',$price1,$price2,$price5,$cost,$qty,'$loc','น้ำมันเครื่อง',NOW(),NOW())
 ON CONFLICT (bcode) DO UPDATE SET
   pcode=EXCLUDED.pcode, descr=EXCLUDED.descr, model=EXCLUDED.model,
   brand=EXCLUDED.brand, vendor=EXCLUDED.vendor, price1=EXCLUDED.price1,
-  price5=EXCLUDED.price5, costlast=EXCLUDED.costlast, qtyoh2=EXCLUDED.qtyoh2,
-  location1=EXCLUDED.location1, updated_at=NOW();
+  price2=EXCLUDED.price2, price5=EXCLUDED.price5, costlast=EXCLUDED.costlast,
+  qtyoh2=EXCLUDED.qtyoh2, location1=EXCLUDED.location1, updated_at=NOW();
 "@
     }
 
@@ -102,6 +104,7 @@ ON CONFLICT (bcode) DO UPDATE SET
             brand    = $row['BRAND'].ToString().Trim()
             vendor   = $row['VENDOR'].ToString().Trim()
             price1   = [double]$row['PRICE1']
+            price2   = [double]$row['PRICE2']
             price5   = [double]$row['PRICE5']
             costlast = [double]$row['COSTLAST']
             qtyoh2   = [double]$row['QTYOH2']

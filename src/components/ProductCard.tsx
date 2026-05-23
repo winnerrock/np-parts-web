@@ -52,7 +52,7 @@ export default function ProductCard({ product }: Props) {
           )}
           <div className="mt-2 flex items-end justify-between">
             <span className="text-lg font-bold text-[#1A1A1A]">
-              ฿{product.price1.toLocaleString()}
+              ฿{product.price2.toLocaleString()}
             </span>
             {product.pcode && (
               <span className="text-xs text-gray-400 truncate ml-2">{product.pcode}</span>
