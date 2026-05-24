@@ -80,7 +80,7 @@ export default function ProductsClient() {
 
       {/* Category tabs */}
       <div className="flex gap-2 mb-6 flex-wrap">
-        {['', 'น้ำมันเครื่อง', 'น้ำมันเกียร์'].map((cat) => (
+        {['', 'น้ำมันเครื่อง', 'น้ำมันเกียร์', 'ระบบเบรค'].map((cat) => (
           <button
             key={cat}
             onClick={() => setParam('category', cat)}
