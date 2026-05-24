@@ -2,12 +2,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const CATEGORIES = [
-  { label: 'น้ำมันเครื่อง',   href: '/products?q=น้ำมันเครื่อง',   icon: '🛢️' },
-  { label: 'กรองน้ำมัน',      href: '/products?q=กรองน้ำมัน',       icon: '🔧' },
-  { label: 'หัวเทียน',        href: '/products?q=หัวเทียน',         icon: '⚡' },
-  { label: 'ผ้าเบรค',         href: '/products?q=ผ้าเบรค',          icon: '🔩' },
-  { label: 'สายพาน',          href: '/products?q=สายพาน',           icon: '⚙️' },
-  { label: 'น้ำยาหม้อน้ำ',    href: '/products?q=น้ำยาหม้อน้ำ',    icon: '💧' },
+  { label: 'น้ำมันเครื่อง',   href: '/products?category=น้ำมันเครื่อง',   icon: '🛢️' },
+  { label: 'น้ำมันเกียร์',    href: '/products?category=น้ำมันเกียร์',    icon: '⚙️' },
+  { label: 'กรองน้ำมัน',      href: '/products?q=กรองน้ำมัน',             icon: '🔧' },
+  { label: 'หัวเทียน',        href: '/products?q=หัวเทียน',               icon: '⚡' },
+  { label: 'ผ้าเบรค',         href: '/products?q=ผ้าเบรค',                icon: '🔩' },
+  { label: 'น้ำยาหม้อน้ำ',    href: '/products?q=น้ำยาหม้อน้ำ',          icon: '💧' },
 ]
 
 const BRANDS = ['CASTROL', 'SHELL', 'MOBIL', 'TOYOTA', 'HONDA', 'NGK', 'DENSO', 'BOSCH']
@@ -38,10 +38,16 @@ export default function HomePage() {
                 ดูสินค้าทั้งหมด
               </Link>
               <Link
-                href="/products?q=น้ำมันเครื่อง"
+                href="/products?category=น้ำมันเครื่อง"
                 className="px-6 py-3 border border-[#E8B84B] text-[#E8B84B] hover:bg-[#E8B84B] hover:text-[#1A1A1A] font-semibold rounded-lg transition-colors"
               >
                 น้ำมันเครื่อง
+              </Link>
+              <Link
+                href="/products?category=น้ำมันเกียร์"
+                className="px-6 py-3 border border-gray-500 text-gray-300 hover:bg-white hover:text-[#1A1A1A] font-semibold rounded-lg transition-colors"
+              >
+                น้ำมันเกียร์
               </Link>
             </div>
           </div>

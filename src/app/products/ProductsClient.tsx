@@ -16,9 +16,10 @@ export default function ProductsClient() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const q      = searchParams.get('q') || ''
-  const brand  = searchParams.get('brand') || ''
-  const page   = parseInt(searchParams.get('page') || '1', 10)
+  const q        = searchParams.get('q') || ''
+  const brand    = searchParams.get('brand') || ''
+  const category = searchParams.get('category') || ''
+  const page     = parseInt(searchParams.get('page') || '1', 10)
 
   const [data, setData]       = useState<ApiResponse | null>(null)
   const [loading, setLoading] = useState(true)
@@ -27,8 +28,9 @@ export default function ProductsClient() {
   const fetchProducts = useCallback(async () => {
     setLoading(true)
     const params = new URLSearchParams()
-    if (q)     params.set('q', q)
-    if (brand) params.set('brand', brand)
+    if (q)        params.set('q', q)
+    if (brand)    params.set('brand', brand)
+    if (category) params.set('category', category)
     params.set('page', String(page))
 
     try {
@@ -40,7 +42,7 @@ export default function ProductsClient() {
     } finally {
       setLoading(false)
     }
-  }, [q, brand, page])
+  }, [q, brand, category, page])
 
   useEffect(() => { fetchProducts() }, [fetchProducts])
   useEffect(() => { setSearch(q) }, [q])
@@ -67,13 +69,30 @@ export default function ProductsClient() {
       {/* Page header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-[#1A1A1A]">
-          {q ? `ค้นหา: "${q}"` : 'สินค้าทั้งหมด'}
+          {q ? `ค้นหา: "${q}"` : category || 'สินค้าทั้งหมด'}
         </h1>
         {data && (
           <p className="text-sm text-gray-500 mt-1">
             พบ {data.total.toLocaleString()} รายการ
           </p>
         )}
+      </div>
+
+      {/* Category tabs */}
+      <div className="flex gap-2 mb-6 flex-wrap">
+        {['', 'น้ำมันเครื่อง', 'น้ำมันเกียร์'].map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setParam('category', cat)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
+              category === cat
+                ? 'bg-[#E8B84B] border-[#E8B84B] text-[#1A1A1A]'
+                : 'bg-white border-gray-200 text-gray-600 hover:border-[#E8B84B]'
+            }`}
+          >
+            {cat || 'ทั้งหมด'}
+          </button>
+        ))}
       </div>
 
       <div className="flex gap-6">

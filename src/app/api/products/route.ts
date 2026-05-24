@@ -5,13 +5,19 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const q        = searchParams.get('q') || ''
   const brand    = searchParams.get('brand') || ''
+  const category = searchParams.get('category') || ''
   const page     = parseInt(searchParams.get('page') || '1', 10)
   const pageSize = 20
 
-  const conditions: string[] = ["category = 'น้ำมันเครื่อง'", "price2 > 0"]
+  const conditions: string[] = ["price2 > 0"]
   const params: (string | number)[] = []
   let idx = 1
 
+  if (category) {
+    conditions.push(`category = $${idx}`)
+    params.push(category)
+    idx++
+  }
   if (q) {
     conditions.push(`(bcode ILIKE $${idx} OR descr ILIKE $${idx} OR brand ILIKE $${idx} OR pcode ILIKE $${idx} OR model ILIKE $${idx})`)
     params.push(`%${q}%`)
@@ -39,9 +45,14 @@ export async function GET(req: NextRequest) {
         `SELECT COUNT(*) FROM products WHERE ${where}`,
         params
       ),
-      pool.query(
-        `SELECT DISTINCT brand FROM products WHERE category = 'น้ำมันเครื่อง' AND price2 > 0 AND brand IS NOT NULL AND brand != '' ORDER BY brand`
-      ),
+      category
+        ? pool.query(
+            `SELECT DISTINCT brand FROM products WHERE price2 > 0 AND brand IS NOT NULL AND brand != '' AND category = $1 ORDER BY brand`,
+            [category]
+          )
+        : pool.query(
+            `SELECT DISTINCT brand FROM products WHERE price2 > 0 AND brand IS NOT NULL AND brand != '' ORDER BY brand`
+          ),
     ])
 
     return NextResponse.json({
