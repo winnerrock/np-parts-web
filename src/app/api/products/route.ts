@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
       pool.query(
         `SELECT bcode,pcode,descr,model,brand,price1,price2,price5,qtyoh2,image_url
          FROM products WHERE ${where}
-         ORDER BY brand, descr
+         ORDER BY (image_url IS NOT NULL AND image_url != '') DESC, brand, descr
          LIMIT $${idx} OFFSET $${idx + 1}`,
         [...params, pageSize, offset]
       ),
