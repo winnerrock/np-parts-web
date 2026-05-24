@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   let idx = 1
 
   if (q) {
-    conditions.push(`(descr ILIKE $${idx} OR brand ILIKE $${idx} OR pcode ILIKE $${idx} OR model ILIKE $${idx})`)
+    conditions.push(`(bcode ILIKE $${idx} OR descr ILIKE $${idx} OR brand ILIKE $${idx} OR pcode ILIKE $${idx} OR model ILIKE $${idx})`)
     params.push(`%${q}%`)
     idx++
   }
