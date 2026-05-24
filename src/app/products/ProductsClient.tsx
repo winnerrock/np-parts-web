@@ -58,7 +58,7 @@ export default function ProductsClient() {
     const p = new URLSearchParams(searchParams.toString())
     if (value) p.set(key, value)
     else p.delete(key)
-    p.delete('page')
+    if (key !== 'page') p.delete('page')
     router.push(`/products?${p}`)
   }
 
