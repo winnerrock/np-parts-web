@@ -64,7 +64,7 @@ async function main() {
            brand=EXCLUDED.brand, vendor=EXCLUDED.vendor, price1=EXCLUDED.price1,
            price2=EXCLUDED.price2, price5=EXCLUDED.price5, costlast=EXCLUDED.costlast,
            qtyoh2=EXCLUDED.qtyoh2, location1=EXCLUDED.location1, updated_at=NOW()`,
-        [p.bcode, p.pcode, p.descr, p.model, p.brand, p.vendor,
+        [p.bcode, p.pcode, p.descr, p.model, (p.brand || '').replace(/[-\s]+$/, ''), p.vendor,
          p.price1, p.price2 ?? 0, p.price5, p.costlast, p.qtyoh2, p.location1, p.category]
       )
       count++
