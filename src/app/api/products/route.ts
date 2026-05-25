@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
   const q        = searchParams.get('q') || ''
   const brand    = searchParams.get('brand') || ''
   const category = searchParams.get('category') || ''
+  const carmodel = searchParams.get('carmodel') || ''
   const page     = parseInt(searchParams.get('page') || '1', 10)
   const pageSize = 20
 
@@ -26,6 +27,11 @@ export async function GET(req: NextRequest) {
   if (brand) {
     conditions.push(`brand ILIKE $${idx}`)
     params.push(`%${brand}%`)
+    idx++
+  }
+  if (carmodel) {
+    conditions.push(`model ILIKE $${idx}`)
+    params.push(`%${carmodel}%`)
     idx++
   }
 

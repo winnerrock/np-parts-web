@@ -19,11 +19,13 @@ export default function ProductsClient() {
   const q        = searchParams.get('q') || ''
   const brand    = searchParams.get('brand') || ''
   const category = searchParams.get('category') || ''
+  const carmodel = searchParams.get('carmodel') || ''
   const page     = parseInt(searchParams.get('page') || '1', 10)
 
-  const [data, setData]       = useState<ApiResponse | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [search, setSearch]   = useState(q)
+  const [data, setData]           = useState<ApiResponse | null>(null)
+  const [loading, setLoading]     = useState(true)
+  const [search, setSearch]       = useState(q)
+  const [carSearch, setCarSearch] = useState(carmodel)
 
   const fetchProducts = useCallback(async () => {
     setLoading(true)
@@ -31,6 +33,7 @@ export default function ProductsClient() {
     if (q)        params.set('q', q)
     if (brand)    params.set('brand', brand)
     if (category) params.set('category', category)
+    if (carmodel) params.set('carmodel', carmodel)
     params.set('page', String(page))
 
     try {
@@ -42,10 +45,11 @@ export default function ProductsClient() {
     } finally {
       setLoading(false)
     }
-  }, [q, brand, category, page])
+  }, [q, brand, category, carmodel, page])
 
   useEffect(() => { fetchProducts() }, [fetchProducts])
   useEffect(() => { setSearch(q) }, [q])
+  useEffect(() => { setCarSearch(carmodel) }, [carmodel])
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -99,27 +103,36 @@ export default function ProductsClient() {
         {/* Sidebar filter */}
         <aside className="hidden md:block w-52 flex-shrink-0">
           <div className="bg-white rounded-xl border border-gray-100 p-4 sticky top-24">
-            <h3 className="font-semibold text-sm text-[#1A1A1A] mb-3">กรองตามยี่ห้อ</h3>
-            <ul className="space-y-1">
-              <li>
+            <h3 className="font-semibold text-sm text-[#1A1A1A] mb-3">🚗 ค้นหาตามรุ่นรถ</h3>
+            <form onSubmit={(e) => { e.preventDefault(); setParam('carmodel', carSearch.trim()) }}>
+              <input
+                type="text"
+                value={carSearch}
+                onChange={(e) => setCarSearch(e.target.value)}
+                placeholder="เช่น VIGO, TIGER, CIVIC..."
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#E8B84B] mb-2"
+              />
+              <button
+                type="submit"
+                className="w-full py-2 bg-[#E8B84B] hover:bg-[#C9971A] text-[#1A1A1A] font-semibold rounded-lg text-sm transition-colors"
+              >
+                ค้นหา
+              </button>
+              {carmodel && (
                 <button
-                  onClick={() => setParam('brand', '')}
-                  className={`w-full text-left px-2 py-1.5 rounded text-sm ${!brand ? 'bg-[#E8B84B] text-[#1A1A1A] font-semibold' : 'text-gray-600 hover:bg-gray-50'}`}
+                  type="button"
+                  onClick={() => { setCarSearch(''); setParam('carmodel', '') }}
+                  className="w-full mt-2 py-1.5 text-xs text-gray-500 hover:text-gray-700 underline"
                 >
-                  ทั้งหมด
+                  ล้างการกรอง
                 </button>
-              </li>
-              {data?.brands.map((b) => (
-                <li key={b}>
-                  <button
-                    onClick={() => setParam('brand', b)}
-                    className={`w-full text-left px-2 py-1.5 rounded text-sm truncate ${brand === b ? 'bg-[#E8B84B] text-[#1A1A1A] font-semibold' : 'text-gray-600 hover:bg-gray-50'}`}
-                  >
-                    {b}
-                  </button>
-                </li>
-              ))}
-            </ul>
+              )}
+            </form>
+            {carmodel && (
+              <p className="mt-3 text-xs text-[#C9971A] font-medium">
+                กรองตามรุ่น: {carmodel}
+              </p>
+            )}
           </div>
         </aside>
 
@@ -142,26 +155,26 @@ export default function ProductsClient() {
             </button>
           </form>
 
-          {/* Mobile brand filter */}
-          {data?.brands && data.brands.length > 0 && (
-            <div className="md:hidden mb-4 flex gap-2 overflow-x-auto pb-1">
-              <button
-                onClick={() => setParam('brand', '')}
-                className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium ${!brand ? 'bg-[#E8B84B] text-[#1A1A1A]' : 'bg-white border border-gray-200 text-gray-600'}`}
-              >
-                ทั้งหมด
+          {/* Mobile car model search */}
+          <div className="md:hidden mb-4">
+            <form onSubmit={(e) => { e.preventDefault(); setParam('carmodel', carSearch.trim()) }} className="flex gap-2">
+              <input
+                type="text"
+                value={carSearch}
+                onChange={(e) => setCarSearch(e.target.value)}
+                placeholder="🚗 ค้นหาตามรุ่นรถ เช่น VIGO..."
+                className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#E8B84B]"
+              />
+              <button type="submit" className="px-4 py-2 bg-[#E8B84B] text-[#1A1A1A] font-semibold rounded-lg text-sm">
+                ค้นหา
               </button>
-              {data.brands.map((b) => (
-                <button
-                  key={b}
-                  onClick={() => setParam('brand', b)}
-                  className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium ${brand === b ? 'bg-[#E8B84B] text-[#1A1A1A]' : 'bg-white border border-gray-200 text-gray-600'}`}
-                >
-                  {b}
-                </button>
-              ))}
-            </div>
-          )}
+            </form>
+            {carmodel && (
+              <button onClick={() => { setCarSearch(''); setParam('carmodel', '') }} className="mt-1 text-xs text-gray-500 underline">
+                ล้างการกรองรุ่นรถ
+              </button>
+            )}
+          </div>
 
           {/* Products grid */}
           {loading ? (
