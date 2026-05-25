@@ -5,7 +5,7 @@ const CATEGORIES = [
   { label: 'น้ำมันเครื่อง',   href: '/products?category=น้ำมันเครื่อง',   icon: '🛢️' },
   { label: 'น้ำมันเกียร์',    href: '/products?category=น้ำมันเกียร์',    icon: '🔄' },
   { label: 'ระบบเบรค',        href: '/products?category=ระบบเบรค',        icon: '🔴' },
-  { label: 'กรองน้ำมัน',      href: '/products?q=กรองน้ำมัน',             icon: '🔧' },
+  { label: 'สายพาน',          href: '/products?category=สายพาน',          icon: '⚙️' },
   { label: 'หัวเทียน',        href: '/products?q=หัวเทียน',               icon: '⚡' },
   { label: 'น้ำยาหม้อน้ำ',    href: '/products?q=น้ำยาหม้อน้ำ',          icon: '💧' },
 ]
