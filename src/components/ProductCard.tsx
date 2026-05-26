@@ -50,12 +50,9 @@ export default function ProductCard({ product }: Props) {
           {product.model && (
             <p className="text-xs text-gray-400 truncate">{product.model}</p>
           )}
-          <div className="mt-2 flex items-end justify-between">
-            <span className="text-lg font-bold text-[#1A1A1A]">
-              ฿{product.price2.toLocaleString()}
-            </span>
+          <div className="mt-2">
             {product.pcode && (
-              <span className="text-xs text-gray-400 truncate ml-2">{product.pcode}</span>
+              <span className="text-xs text-gray-400 truncate">{product.pcode}</span>
             )}
           </div>
         </div>

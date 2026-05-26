@@ -75,13 +75,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
             {/* Price */}
             <div className="bg-[#FDF3DC] rounded-xl p-4 mb-6">
-              <p className="text-xs text-gray-500 mb-1">ราคาขายหน้าร้าน</p>
-              <p className="text-3xl font-bold text-[#1A1A1A]">
-                ฿{product.price2.toLocaleString()}
-              </p>
-              <p className="text-sm text-gray-500 mt-1">
-                ราคาส่ง: <span className="font-medium">กรุณาติดต่อหน้าร้าน</span>
-              </p>
+              <p className="text-sm text-gray-600 font-medium">สอบถามราคาได้ที่หน้าร้านหรือโทรหาเราได้เลยครับ</p>
             </div>
 
             {/* Details table */}
