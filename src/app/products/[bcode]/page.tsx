@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import pool from '@/lib/db'
 import { Product } from '@/lib/types'
+import ImageGallery from '@/components/ImageGallery'
 
 interface Props {
   params: Promise<{ bcode: string }>
@@ -39,19 +40,15 @@ export default async function ProductDetailPage({ params }: Props) {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="flex flex-col md:flex-row">
           {/* Image */}
-          <div className="md:w-80 flex-shrink-0 bg-gray-50 flex items-center justify-center p-8 min-h-64">
-            {product.image_url ? (
-              <div className="relative w-full aspect-square">
-                <Image
-                  src={product.image_url}
-                  alt={product.descr}
-                  fill
-                  className="object-contain"
-                  sizes="320px"
-                />
+          <div className="md:w-80 flex-shrink-0 p-6">
+            {product.image_urls && product.image_urls.length > 0 ? (
+              <ImageGallery urls={product.image_urls} alt={product.descr} />
+            ) : product.image_url ? (
+              <div className="relative aspect-square bg-gray-50 rounded-xl overflow-hidden">
+                <Image src={product.image_url} alt={product.descr} fill className="object-contain p-4" sizes="320px" />
               </div>
             ) : (
-              <div className="flex flex-col items-center gap-3 text-gray-300">
+              <div className="aspect-square bg-gray-50 rounded-xl flex flex-col items-center justify-center gap-3 text-gray-300">
                 <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>

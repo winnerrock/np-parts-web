@@ -26,11 +26,13 @@ CREATE TABLE IF NOT EXISTS products (
   qtyoh2      NUMERIC(10,2) DEFAULT 0,
   location1   VARCHAR(50),
   image_url   TEXT,
+  image_urls  TEXT[],
   category    VARCHAR(50)   DEFAULT 'ทั่วไป',
   synced_at   TIMESTAMP     DEFAULT NOW(),
   updated_at  TIMESTAMP     DEFAULT NOW()
 );
 ALTER TABLE products ADD COLUMN IF NOT EXISTS price2 NUMERIC(10,2) DEFAULT 0;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS image_urls TEXT[];
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_brand     ON products(brand);
 `

@@ -12,6 +12,7 @@ export interface Product {
   qtyoh2: number
   location1: string
   image_url: string | null
+  image_urls: string[] | null
   category: string
 }
 
