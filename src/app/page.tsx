@@ -113,6 +113,23 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TikTok Videos */}
+      <section className="max-w-7xl mx-auto px-4 py-12">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-[#1A1A1A]">🎬 คลิปวิดีโอจาก TikTok</h2>
+          <p className="text-sm text-gray-500 mt-1">ติดตามเราได้ที่ @npautoservice</p>
+        </div>
+        <div className="flex flex-wrap gap-6 justify-start">
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7644188280656825621"
+            className="rounded-xl border border-gray-100 shadow-sm"
+            style={{ width: 325, height: 735 }}
+            allowFullScreen
+            allow="encrypted-media"
+          />
+        </div>
+      </section>
+
       {/* Features */}
       <section className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
