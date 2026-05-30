@@ -54,7 +54,7 @@ export default function HomePage() {
           <div className="flex-shrink-0">
             <div className="w-48 h-48 md:w-64 md:h-64 relative">
               <Image
-                src="/images/logo.png"
+                src="/images/NP-logo-ตาล.png"
                 alt="NP อะไหล่ยนต์"
                 fill
                 className="object-contain drop-shadow-2xl"

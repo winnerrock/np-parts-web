@@ -26,7 +26,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
           <Image
-            src="/images/logo.png"
+            src="/images/NP-logo-ตาล.png"
             alt="NP อะไหล่ยนต์"
             width={56}
             height={56}
