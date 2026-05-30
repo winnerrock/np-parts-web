@@ -127,6 +127,13 @@ export default function HomePage() {
             allowFullScreen
             allow="encrypted-media"
           />
+          <iframe
+            src="https://www.tiktok.com/embed/v2/7516842895660305671"
+            className="rounded-xl border border-gray-100 shadow-sm"
+            style={{ width: 325, height: 735 }}
+            allowFullScreen
+            allow="encrypted-media"
+          />
         </div>
       </section>
 
